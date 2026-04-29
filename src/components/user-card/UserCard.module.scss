@@ -1,0 +1,128 @@
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 10px;
+  overflow: hidden;
+
+  &:hover {
+    background: #f8fafc;
+    transform: translateX(4px);
+    border-color: #e2e8f0;
+  }
+
+  &.active {
+    background: #f0f7ff;
+    border-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+
+    .active-indicator {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #3b82f6;
+    }
+  }
+}
+
+.avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #f1f5f9;
+  }
+
+  .status-indicator {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+
+    &.admin { background: #ef4444; }
+    &.moderator { background: #f59e0b; }
+    &.user { background: #10b981; }
+  }
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+
+  .top-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2px;
+  }
+
+  .name {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .role-tag {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+
+    &.admin { color: #ef4444; }
+    &.moderator { color: #f59e0b; }
+    &.user { color: #94a3b8; }
+  }
+}
+
+.details {
+  .email {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    svg {
+      font-size: 0.7rem;
+      opacity: 0.6;
+    }
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: #94a3b8;
+
+    .dot {
+      font-size: 1rem;
+      line-height: 0;
+      color: #e2e8f0;
+    }
+  }
+}
