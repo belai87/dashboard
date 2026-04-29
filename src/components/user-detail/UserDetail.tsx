@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   FaBriefcase,
   FaCalendarAlt,
@@ -18,10 +18,17 @@ interface UserDetailProps {
   user: User
 }
 
-const UserDetail: React.FC<UserDetailProps> = ({ user }) => {
+const UserDetail = ({ user }: UserDetailProps) => {
   const fullAddress = `${user.address.address}, ${user.address.city}`
+  const [showMap, setShowMap] = useState(false)
+
+  const lat = user.address?.coordinates?.lat // широта
+  const lng = user.address?.coordinates?.lng // долгота
+
+  const yandexMapUrl = `https://yandex.ru/map-widget/v1/?ll=${lng},${lat}&z=14&lang=ru_RU`
+ 
   return (
-    <div className={s.container}>
+    <div className={s.root}>
       <div className={s.header}>
         <div
           className={s.cover}
@@ -79,6 +86,11 @@ const UserDetail: React.FC<UserDetailProps> = ({ user }) => {
               <label>Адрес</label>
               <span className={s.multiline}>{fullAddress}</span>
             </div>
+          </div>
+          <div className={s.address_block}>
+            <button className={s.map_btn} onClick={() => setShowMap(true)}>
+              <FaMapMarkerAlt /> Показать карте
+            </button>
           </div>
         </section>
 
@@ -138,8 +150,35 @@ const UserDetail: React.FC<UserDetailProps> = ({ user }) => {
           </div>
         </section>
       </div>
+
+      {showMap && (
+        <div className={s.modal} onClick={() => setShowMap(false)}>
+          <div
+            className={s.modal__content}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={s.modal__header}>
+              <h4>Местоположение: {user.address.city}</h4>
+              <button onClick={() => setShowMap(false)}>&times;</button>
+            </div>
+
+            {lat && lng && (
+              <iframe
+                src={yandexMapUrl}
+                width="100%"
+                height="400"
+                frameBorder="0"
+              ></iframe>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
+
+/*
+
+ */
 
 export default UserDetail
