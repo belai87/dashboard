@@ -1,11 +1,8 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import Head from 'next/head'
-import styles from './Layout.module.scss'
+import s from './Layout.module.scss'
 import Header from '@/src/components/header'
-
-interface LayoutProps {
-  children: ReactNode
-}
+import { LayoutProps } from './types'
 
 const Layout = ({ children }: LayoutProps) => {
   return (
@@ -21,9 +18,9 @@ const Layout = ({ children }: LayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.layout}>
+      <div className={s.root}>
         <Header />
-        <main className={styles.main}>{children}</main>
+        <main>{children}</main>
       </div>
     </>
   )

@@ -1,14 +1,11 @@
 import React from 'react'
-import styles from './Loader.module.scss'
-
-type LoaderProps = {
-  message?: string
-}
+import s from './Loader.module.scss'
+import { LoaderProps } from './types'
 
 const Loader = ({ message = 'Загрузка...' }: LoaderProps) => {
   return (
-    <div className={styles.loader}>
-      <div className={styles.spinner}></div>
+    <div className={s.root}>
+      <div className={s.root__spinner}></div>
       <p>{message}</p>
     </div>
   )

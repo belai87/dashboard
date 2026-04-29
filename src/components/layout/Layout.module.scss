@@ -1,15 +1,17 @@
-.layout {
+.root {
   min-height: 100vh;
-  background: #f0f2f8; // Можно заменить на переменную, если нужно
-}
+  background: #f0f2f8;
 
-.main {
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 1.5rem;
-  width: 100%;
+  main {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    width: 100%;
 
-  @media (max-width: 768px) {
-    padding: 1rem;
+    @media (max-width: 768px) {
+      padding: 1rem;
+    }
   }
 }
+
+

@@ -16,13 +16,13 @@
 
   &__logo {
     h2 {
-      color: var(--primary-color);
+      color: $slate-500;
       font-size: 1.5rem;
       font-weight: 700;
-      background: linear-gradient(135deg, var(--gray-800), var(--primary-dark));
+      background: linear-gradient(135deg, $blue 0%, $purple 50%, $orange 100%);
       background-clip: text;
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; // Важно для корректного отображения градиента в тексте
+      -webkit-text-fill-color: transparent;
     }
   }
 
@@ -32,6 +32,6 @@
     border-radius: 100px;
     font-size: 0.85rem;
     font-weight: 600;
-    color: #1e40af; // Можно заменить на var(--primary-dark)
+    color: $blue-dark;
   }
 }
