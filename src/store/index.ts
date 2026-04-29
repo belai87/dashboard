@@ -1,33 +1,10 @@
-import { create } from 'zustand';
-import { User, Filters, Stats } from '@/common/types';
+import { create } from 'zustand'
+import { UserStoreType } from '@/src/store/types'
 
-interface UserStoreState {
-  users: User[];
-  selectedUser: User | null;
-  loading: boolean;
-  error: string | null;
-  searchTerm: string;
-  filters: Filters;
-}
-
-interface UserStoreActions {
-  setUsers: (users: User[]) => void;
-  setSelectedUser: (user: User | null) => void;
-  setLoading: (loading: boolean) => void;
-  setError: (error: string | null) => void;
-  setSearchTerm: (term: string) => void;
-  setFilter: <K extends keyof Filters>(key: K, value: Filters[K]) => void;
-  resetFilters: () => void;
-  getFilteredUsers: () => User[];
-  getStats: () => Stats;
-}
-
-type UserStore = UserStoreState & UserStoreActions;
-
-const useUserStore = create<UserStore>()((set, get) => ({
+const useUserStore = create<UserStoreType>()((set, get) => ({
   users: [],
   selectedUser: null,
-  loading: false,
+  loading: true,
   error: null,
   searchTerm: '',
   filters: {
@@ -51,33 +28,33 @@ const useUserStore = create<UserStore>()((set, get) => ({
     }),
 
   getFilteredUsers: () => {
-    const { users, searchTerm, filters } = get();
-    let filtered = [...users];
+    const { users, searchTerm, filters } = get()
+    let filtered = [...users]
 
     if (searchTerm.trim()) {
-      const lowerTerm = searchTerm.toLowerCase();
+      const lowerTerm = searchTerm.toLowerCase()
       filtered = filtered.filter(
         (user) =>
           user.firstName.toLowerCase().includes(lowerTerm) ||
           user.lastName.toLowerCase().includes(lowerTerm) ||
           user.email.toLowerCase().includes(lowerTerm) ||
-          user.role.toLowerCase().includes(lowerTerm)
-      );
+          user.role.toLowerCase().includes(lowerTerm),
+      )
     }
 
     if (filters.role !== 'all') {
-      filtered = filtered.filter((user) => user.role === filters.role);
+      filtered = filtered.filter((user) => user.role === filters.role)
     }
 
     if (filters.gender !== 'all') {
-      filtered = filtered.filter((user) => user.gender === filters.gender);
+      filtered = filtered.filter((user) => user.gender === filters.gender)
     }
 
-    return filtered;
+    return filtered
   },
 
   getStats: () => {
-    const { users } = get();
+    const { users } = get()
     return {
       total: users.length,
       admins: users.filter((u) => u.role === 'admin').length,
@@ -85,8 +62,8 @@ const useUserStore = create<UserStore>()((set, get) => ({
       users: users.filter((u) => u.role === 'user').length,
       male: users.filter((u) => u.gender === 'male').length,
       female: users.filter((u) => u.gender === 'female').length,
-    };
+    }
   },
-}));
+}))
 
-export default useUserStore;
+export default useUserStore

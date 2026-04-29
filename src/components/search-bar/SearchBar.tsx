@@ -1,42 +1,43 @@
-'use client';
+'use client'
 
-import React from 'react';
+import React from 'react'
 import {
-  FaSearch, FaTimes, FaUsers, FaCrown,
-  FaUserShield, FaMars, FaVenus, FaLayerGroup
-} from 'react-icons/fa';
-import styles from './SearchBar.module.scss';
+  FaCrown,
+  FaLayerGroup,
+  FaMars,
+  FaSearch,
+  FaTimes,
+  FaUsers,
+  FaUserShield,
+  FaVenus,
+} from 'react-icons/fa'
+import useUserStore from '@/src/store'
+import styles from './SearchBar.module.scss'
 
-interface SearchBarProps {
-  searchTerm: string;
-  onSearchChange: (value: string) => void;
-  filters: { role: string; gender: string };
-  onFilterChange: (filters: any) => void;
-  stats: any;
-}
+const SearchBar = () => {
+  const [
+    searchTerm,
+    setSearchTerm,
+    filters,
+    setFilter,
+    resetFilters,
+    getStats,
+  ] = useUserStore((state) => [
+    state.searchTerm,
+    state.setSearchTerm,
+    state.filters,
+    state.setFilter,
+    state.resetFilters,
+    state.getStats,
+  ])
 
-const SearchBar: React.FC<SearchBarProps> = ({
-                                               searchTerm,
-                                               onSearchChange,
-                                               filters,
-                                               onFilterChange,
-                                               stats
-                                             }) => {
+  const stats = getStats()
 
-  const updateFilter = (key: string, value: string) => {
-    onFilterChange({ ...filters, [key]: value });
-  };
-
-  const resetFilters = () => {
-    onSearchChange('');
-    onFilterChange({ role: 'all', gender: 'all' });
-  };
-
-  const hasActiveFilters = searchTerm || filters.role !== 'all' || filters.gender !== 'all';
+  const hasActiveFilters =
+    searchTerm || filters.role !== 'all' || filters.gender !== 'all'
 
   return (
     <div className={styles.container}>
-      {/* Поиск */}
       <div className={styles['search-section']}>
         <div className={styles['input-wrapper']}>
           <FaSearch className={styles['search-icon']} />
@@ -44,10 +45,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
             type="text"
             placeholder="Поиск пользователей..."
             value={searchTerm}
-            onChange={(e) => onSearchChange(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           {searchTerm && (
-            <button className={styles['clear-btn']} onClick={() => onSearchChange('')}>
+            <button
+              className={styles['clear-btn']}
+              onClick={() => setSearchTerm('')}
+            >
               <FaTimes />
             </button>
           )}
@@ -59,7 +63,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
         )}
       </div>
 
-      {/* Группа фильтров по Ролям */}
       <div className={styles['filter-group']}>
         <div className={styles['group-header']}>
           <span className={styles['group-title']}>Роль</span>
@@ -75,7 +78,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             <button
               key={role.id}
               className={`${styles.tab} ${filters.role === role.id ? styles.active : ''}`}
-              onClick={() => updateFilter('role', role.id)}
+              onClick={() => setFilter('role', role.id)}
             >
               {role.icon} <span>{role.label}</span>
             </button>
@@ -83,7 +86,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
         </div>
       </div>
 
-      {/* Группа фильтров по Полу */}
       <div className={styles['filter-group']}>
         <div className={styles['group-header']}>
           <span className={styles['group-title']}>Пол</span>
@@ -97,7 +99,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             <button
               key={gender.id}
               className={`${styles.tab} ${filters.gender === gender.id ? styles.active : ''}`}
-              onClick={() => updateFilter('gender', gender.id)}
+              onClick={() => setFilter('gender', gender.id)}
             >
               {gender.icon} <span>{gender.label}</span>
             </button>
@@ -105,7 +107,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SearchBar;
+export default SearchBar

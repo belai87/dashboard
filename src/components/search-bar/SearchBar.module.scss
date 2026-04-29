@@ -106,7 +106,9 @@
     padding-bottom: 4px;
     margin: 0 -4px;
 
-    &::-webkit-scrollbar { display: none; }
+    &::-webkit-scrollbar {
+      display: none;
+    }
     scrollbar-width: none;
   }
 }
@@ -144,7 +146,9 @@
     color: #ffffff;
     box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
 
-    svg { opacity: 1; }
+    svg {
+      opacity: 1;
+    }
   }
 }
 

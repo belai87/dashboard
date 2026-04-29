@@ -1,63 +1,55 @@
-'use client';
+'use client'
 
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { FaChevronLeft } from 'react-icons/fa';
-import UserCard from '../UserCard';
-import SearchBar from '../SearchBar';
-import UserDetail from '../UserDetail';
-import { User } from '@/common/types';
-import styles from "./UserList.module.scss";
+import React, { useEffect, useState } from 'react'
+import { FaChevronLeft } from 'react-icons/fa'
+import useUserStore from '@/src/store'
+import UserCard from '../user-card'
+import SearchBar from '../search-bar'
+import UserDetail from '../user-detail'
+import styles from './UserList.module.scss'
+import { User } from '@/src/store/types'
 
 interface UsersListProps {
-  users: User[];
-  error?: string | null;
-  isLoading?: boolean;
+  users: User[]
+  error?: string | null
+  isLoading?: boolean
 }
 
 const UsersList = ({ users, error, isLoading = false }: UsersListProps) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [filters, setFilters] = useState({ role: 'all', gender: 'all' });
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const {
+    setUsers,
+    selectedUser,
+    setSelectedUser,
+    getFilteredUsers,
+    loading: storeLoading,
+    error: storeError,
+  } = useUserStore()
+
+  const [isDetailOpen, setIsDetailOpen] = useState(false)
 
   useEffect(() => {
-    if (users.length > 0 && !selectedUser) {
-      setSelectedUser(users[0]);
+    if (users && users.length > 0) {
+      setUsers(users)
+      if (!selectedUser) {
+        setSelectedUser(users[0])
+      }
     }
-  }, [users, selectedUser]);
+  }, [users, setUsers, selectedUser, setSelectedUser])
 
-  const filteredUsers = useMemo(() => {
-    const term = searchTerm.toLowerCase();
-    return users.filter((user) => {
-      const matchesSearch = term === '' ||
-        user.firstName.toLowerCase().includes(term) ||
-        user.lastName.toLowerCase().includes(term) ||
-        user.email.toLowerCase().includes(term) ||
-        user.role.toLowerCase().includes(term);
+  const filteredUsers = getFilteredUsers()
 
-      const matchesRole = filters.role === 'all' || user.role === filters.role;
-      const matchesGender = filters.gender === 'all' || user.gender === filters.gender;
+  const handleSelectUser = (user: User) => {
+    setSelectedUser(user)
+    setIsDetailOpen(true)
+  }
 
-      return matchesSearch && matchesRole && matchesGender;
-    });
-  }, [users, searchTerm, filters]);
+  const closeDetail = () => setIsDetailOpen(false)
 
-  const stats = useMemo(() => ({
-    total: users.length,
-    admins: users.filter(u => u.role === 'admin').length,
-    moderators: users.filter(u => u.role === 'moderator').length,
-    male: users.filter(u => u.gender === 'male').length,
-    female: users.filter(u => u.gender === 'female').length,
-  }), [users]);
-
-  const handleSelectUser = useCallback((user: User) => {
-    setSelectedUser(user);
-    setIsDetailOpen(true);
-  }, []);
-
-  const closeDetail = () => setIsDetailOpen(false);
-
-  if (isLoading) return <div className={styles.loading}>Загрузка...</div>;
+  // Используем либо пропсы загрузки, либо состояние стора
+  if (isLoading || storeLoading)
+    return <div className={styles.loading}>Загрузка...</div>
+  if (error || storeError)
+    return <div className={styles.error}>{error || storeError}</div>
 
   return (
     <div className={styles.dashboard}>
@@ -68,41 +60,51 @@ const UsersList = ({ users, error, isLoading = false }: UsersListProps) => {
         </div>
       </header>
 
-      <div className={`${styles['main-layout']} ${isDetailOpen ? styles['show-detail'] : ''}`}>
-
+      <div
+        className={`${styles['main-layout']} ${isDetailOpen ? styles['show-detail'] : ''}`}
+      >
+        {/* Левая панель: Список */}
         <aside className={styles['users-list-panel']}>
-          <SearchBar
-            searchTerm={searchTerm}
-            onSearchChange={setSearchTerm}
-            filters={filters}
-            onFilterChange={setFilters}
-            stats={stats}
-          />
+          {/* SearchBar теперь сам берет/меняет данные в сторе, пропсы не нужны */}
+          <SearchBar />
+
           <div className={styles['users-scroll']}>
-            {filteredUsers.map((user) => (
-              <UserCard
-                key={user.id}
-                user={user}
-                isActive={selectedUser?.id === user.id}
-                onSelect={handleSelectUser}
-              />
-            ))}
+            {filteredUsers.length > 0 ? (
+              // Добавляем : User для параметра user
+              filteredUsers.map((user: User) => (
+                <UserCard
+                  key={user.id}
+                  user={user}
+                  isActive={selectedUser?.id === user.id}
+                  onSelect={handleSelectUser}
+                />
+              ))
+            ) : (
+              <div className={styles['no-results']}>
+                <p>😕 Пользователи не найдены</p>
+              </div>
+            )}
           </div>
         </aside>
 
+        {/* Правая панель: Детали */}
         <main className={styles['user-detail-panel']}>
-          {selectedUser && (
+          {selectedUser ? (
             <>
               <button className={styles['back-button']} onClick={closeDetail}>
                 <FaChevronLeft /> Назад к списку
               </button>
               <UserDetail user={selectedUser} />
             </>
+          ) : (
+            <div className={styles['no-selection']}>
+              <p>👈 Выберите пользователя из списка</p>
+            </div>
           )}
         </main>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UsersList;
+export default UsersList

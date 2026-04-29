@@ -1,55 +1,76 @@
-import React from 'react';
+import React from 'react'
 import {
-  FaEnvelope, FaPhone, FaCalendarAlt, FaTint, FaMapMarkerAlt,
-  FaHeartbeat, FaCreditCard, FaBriefcase,
-  FaVenusMars, FaCrown, FaUserShield
-} from 'react-icons/fa';
-import { User } from '@/common/types';
-import styles from './UserDetail.module.scss';
+  FaBriefcase,
+  FaCalendarAlt,
+  FaCreditCard,
+  FaCrown,
+  FaEnvelope,
+  FaHeartbeat,
+  FaMapMarkerAlt,
+  FaTint,
+  FaUserShield,
+  FaVenusMars,
+} from 'react-icons/fa'
+import styles from './UserDetail.module.scss'
+import { User } from '@/src/store/types'
 
 interface UserDetailProps {
-  user: User;
+  user: User
 }
-
+ 
 const UserDetail: React.FC<UserDetailProps> = ({ user }) => {
-  const fullAddress = `${user.address.address}, ${user.address.city}`;
+  const fullAddress = `${user.address.address}, ${user.address.city}`
 
   return (
     <div className={styles.container}>
-      {/* Шапка профиля */}
       <div className={styles['header-card']}>
-        <div className={styles.cover} style={{
-          background: `linear-gradient(135deg, #6366f1 0%, #a855f7 100%)`
-        }} />
+        <div
+          className={styles.cover}
+          style={{
+            background: `linear-gradient(135deg, #6366f1 0%, #a855f7 100%)`,
+          }}
+        />
         <div className={styles['header-content']}>
           <div className={styles['avatar-section']}>
-            <img src='/user.png' alt={user.firstName} className={styles.avatar} />
+            <img
+              src="/user.png"
+              alt={user.firstName}
+              className={styles.avatar}
+            />
             <div className={`${styles.badge} ${styles[user.role]}`}>
               {user.role === 'admin' ? <FaCrown /> : <FaUserShield />}
             </div>
           </div>
 
           <div className={styles['main-info']}>
-            <h1>{user.firstName} {user.lastName}</h1>
+            <h1>
+              {user.firstName} {user.lastName}
+            </h1>
             <span className={styles.username}>@{user.username}</span>
             <p className={styles.title}>
               {user.company.title} в <strong>{user.company.name}</strong>
             </p>
 
             <div className={styles.tags}>
-              <span className={styles.tag}><FaVenusMars /> {user.gender}</span>
-              <span className={styles.tag}><FaCalendarAlt /> {user.age} лет</span>
-              <span className={styles.tag}><FaMapMarkerAlt /> {user.address.city}</span>
+              <span className={styles.tag}>
+                <FaVenusMars /> {user.gender}
+              </span>
+              <span className={styles.tag}>
+                <FaCalendarAlt /> {user.age} лет
+              </span>
+              <span className={styles.tag}>
+                <FaMapMarkerAlt /> {user.address.city}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Сетка с деталями */}
       <div className={styles['details-grid']}>
-        {/* Контакты */}
         <section className={styles.card}>
-          <h3><FaEnvelope /> Контакты</h3>
+          <h3>
+            <FaEnvelope /> Контакты
+          </h3>
           <div className={styles['info-list']}>
             <div className={styles.item}>
               <label>Email</label>
@@ -66,9 +87,10 @@ const UserDetail: React.FC<UserDetailProps> = ({ user }) => {
           </div>
         </section>
 
-        {/* Работа и Образование */}
         <section className={styles.card}>
-          <h3><FaBriefcase /> Профессиональные данные</h3>
+          <h3>
+            <FaBriefcase /> Профессиональные данные
+          </h3>
           <div className={styles['info-list']}>
             <div className={styles.item}>
               <label>Отдел</label>
@@ -81,11 +103,14 @@ const UserDetail: React.FC<UserDetailProps> = ({ user }) => {
           </div>
         </section>
 
-        {/* Финансы */}
         <section className={`${styles.card} ${styles.finance}`}>
-          <h3><FaCreditCard /> Банковские данные</h3>
+          <h3>
+            <FaCreditCard /> Банковские данные
+          </h3>
           <div className={styles['bank-card']}>
-            <div className={styles['card-type']}>{user.bank.cardType.toUpperCase()}</div>
+            <div className={styles['card-type']}>
+              {user.bank.cardType.toUpperCase()}
+            </div>
             <div className={styles['card-number']}>
               •••• •••• •••• {user.bank.cardNumber.slice(-4)}
             </div>
@@ -96,13 +121,16 @@ const UserDetail: React.FC<UserDetailProps> = ({ user }) => {
           </div>
         </section>
 
-        {/* Физические параметры */}
         <section className={styles.card}>
-          <h3><FaHeartbeat /> Здоровье</h3>
+          <h3>
+            <FaHeartbeat /> Здоровье
+          </h3>
           <div className={styles['stats-row']}>
             <div className={styles['stat-box']}>
               <span className={styles['stat-label']}>Кровь</span>
-              <span className={styles['stat-value']}><FaTint /> {user.bloodGroup}</span>
+              <span className={styles['stat-value']}>
+                <FaTint /> {user.bloodGroup}
+              </span>
             </div>
             <div className={styles['stat-box']}>
               <span className={styles['stat-label']}>Рост</span>
@@ -116,7 +144,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ user }) => {
         </section>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UserDetail;
+export default UserDetail

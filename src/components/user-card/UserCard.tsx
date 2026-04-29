@@ -1,60 +1,59 @@
-import React, { memo } from 'react';
-import { FaCrown, FaUserShield, FaUser, FaEnvelope } from 'react-icons/fa';
-import { UserCardProps, User } from '@/common/types';
-import styles from './UserCard.module.scss';
+import React, { memo } from 'react'
+import { FaCrown, FaEnvelope, FaUser, FaUserShield } from 'react-icons/fa'
+import s from './UserCard.module.scss'
+import { UserCardExtendedProps } from '@/src/components/user-card/types'
+import cn from 'classnames'
 
-const getRoleConfig = (role: string) => {
+const renderRole = (role: string) => {
   switch (role) {
-    case 'admin': return { icon: <FaCrown />, class: styles.admin };
-    case 'moderator': return { icon: <FaUserShield />, class: styles.moderator };
-    default: return { icon: <FaUser />, class: styles.user };
+    case 'admin':
+      return { icon: <FaCrown />, class: s.admin }
+    case 'moderator':
+      return { icon: <FaUserShield />, class: s.moderator }
+    default:
+      return { icon: <FaUser />, class: s.user }
   }
-};
-
-interface UserCardExtendedProps extends UserCardProps {
-  isActive?: boolean;
-  onSelect?: (user: User) => void;
 }
 
-const UserCard: React.FC<UserCardExtendedProps> = memo(({ user, isActive, onSelect }) => {
-  const role = getRoleConfig(user.role);
+const UserCard = memo(({ user, isActive, onSelect }: UserCardExtendedProps) => {
+  const role = renderRole(user.role)
 
   return (
     <div
-      className={`${styles.card} ${isActive ? styles.active : ''}`}
+      className={cn(s.root, { [s.active]: isActive })}
       onClick={() => onSelect?.(user)}
       role="button"
     >
-      <div className={styles['avatar-wrapper']}>
-        <img src="/user.png" alt={user.firstName} className={styles.avatar} />
-        <div className={`${styles['status-indicator']} ${role.class}`} />
+      <div className={s.avatarWrapper}>
+        <img src="/user.png" alt={user.firstName} className={s.avatar} />
+        <div className={cn(s.statusIndicator, role.class)} />
       </div>
 
-      <div className={styles.content}>
-        <div className={styles['top-line']}>
-          <h4 className={styles.name}>{user.firstName} {user.lastName}</h4>
-          <span className={`${styles['role-tag']} ${role.class}`}>
-            {role.icon}
-          </span>
+      <div className={s.content}>
+        <div className={s.topLine}>
+          <h4 className={s.name}>
+            {user.firstName} {user.lastName}
+          </h4>
+          <span className={cn(s.roleTag, role.class)}>{role.icon}</span>
         </div>
 
-        <div className={styles.details}>
-          <p className={styles.email}>
+        <div className={s.details}>
+          <p className={s.email}>
             <FaEnvelope /> {user.email}
           </p>
-          <div className={styles.meta}>
+          <div className={s.meta}>
             <span>{user.age} лет</span>
-            <span className={styles.dot}>•</span>
+            <span className={s.dot}>•</span>
             <span>{user.gender === 'female' ? 'Женщина' : 'Мужчина'}</span>
           </div>
         </div>
       </div>
-
-      {isActive && <div className={styles['active-indicator']} />}
+ 
+      {isActive && <div className={s.activeIndicator} />}
     </div>
-  );
-});
+  )
+})
 
-UserCard.displayName = 'UserCard';
+UserCard.displayName = 'UserCard'
 
-export default UserCard;
+export default UserCard

@@ -1,14 +1,17 @@
-import React from 'react';
-import { LoaderProps } from '@/common/types';
-import styles from './Loader.module.scss';
+import React from 'react'
+import styles from './Loader.module.scss'
 
-const Loader: React.FC<LoaderProps> = ({ message = 'Загрузка...' }) => {
+type LoaderProps = {
+  message?: string
+}
+
+const Loader = ({ message = 'Загрузка...' }: LoaderProps) => {
   return (
     <div className={styles.loader}>
       <div className={styles.spinner}></div>
       <p>{message}</p>
     </div>
-  );
-};
+  )
+}
 
-export default Loader;
+export default Loader
