@@ -14,14 +14,21 @@ interface UsersListProps {
 }
 
 const UsersList = ({ users, error, isLoading = false }: UsersListProps) => {
-  const {
+  const [
     setUsers,
     selectedUser,
     setSelectedUser,
     getFilteredUsers,
-    loading: storeLoading,
-    error: storeError,
-  } = useUserStore()
+    storeLoading,
+    storeError,
+  ] = useUserStore((state) => [
+    state.setUsers,
+    state.selectedUser,
+    state.setSelectedUser,
+    state.getFilteredUsers,
+    state.loading,
+    state.error,
+  ])
 
   const [isDetailOpen, setIsDetailOpen] = useState(false)
 
