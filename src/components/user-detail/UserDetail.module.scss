@@ -210,6 +210,13 @@
   justify-content: center;
   padding: 20px;
 
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
   &__content {
     background: #fff;
     width: 100%;
@@ -220,18 +227,30 @@
   }
 
   &__close {
-    margin-top: 15px;
-    width: 100%;
-    padding: 10px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     background: $slate-100;
+    color: $slate-500;
     border: none;
-    border-radius: 10px;
-    color: $slate-700;
-    font-weight: 600;
+    border-radius: 50%;
+
+    font-size: 1.5rem; // Размер крестика
+    line-height: 0;
     cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-      background: $slate-200;
+      background: rgba($red, 0.1); // Нежный красный фон
+      color: $red; // Яркий красный крестик
+      transform: rotate(90deg); // Плавный поворот
+    }
+
+    &:active {
+      transform: scale(0.9) rotate(90deg); // Эффект нажатия
     }
   }
 }

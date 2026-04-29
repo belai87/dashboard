@@ -26,7 +26,7 @@ const UserDetail = ({ user }: UserDetailProps) => {
   const lng = user.address?.coordinates?.lng // долгота
 
   const yandexMapUrl = `https://yandex.ru/map-widget/v1/?ll=${lng},${lat}&z=14&lang=ru_RU`
- 
+
   return (
     <div className={s.root}>
       <div className={s.header}>
@@ -159,7 +159,12 @@ const UserDetail = ({ user }: UserDetailProps) => {
           >
             <div className={s.modal__header}>
               <h4>Местоположение: {user.address.city}</h4>
-              <button onClick={() => setShowMap(false)}>&times;</button>
+              <button
+                className={s.modal__close}
+                onClick={() => setShowMap(false)}
+              >
+                &times;
+              </button>
             </div>
 
             {lat && lng && (
