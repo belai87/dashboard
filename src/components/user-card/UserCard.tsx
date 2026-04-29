@@ -24,20 +24,20 @@ const UserCard = memo(({ user, isActive, onSelect }: UserCardExtendedProps) => {
       onClick={() => onSelect?.(user)}
       role="button"
     >
-      <div className={s.avatarWrapper}>
-        <img src="/user.png" alt={user.firstName} className={s.avatar} />
-        <div className={cn(s.statusIndicator, role.class)} />
+      <div className={s.root__avatar}>
+        <img src="/user.png" alt={user.firstName} />
+        <div className={cn(s.root__status, role.class)} />
       </div>
 
-      <div className={s.content}>
-        <div className={s.topLine}>
+      <div className={s.root__content}>
+        <div className={s.line}>
           <h4 className={s.name}>
             {user.firstName} {user.lastName}
           </h4>
-          <span className={cn(s.roleTag, role.class)}>{role.icon}</span>
+          <span className={cn(s.tag, role.class)}>{role.icon}</span>
         </div>
 
-        <div className={s.details}>
+        <div className={s.root__details}>
           <p className={s.email}>
             <FaEnvelope /> {user.email}
           </p>
@@ -48,7 +48,7 @@ const UserCard = memo(({ user, isActive, onSelect }: UserCardExtendedProps) => {
           </div>
         </div>
       </div>
- 
+
       {isActive && <div className={s.activeIndicator} />}
     </div>
   )

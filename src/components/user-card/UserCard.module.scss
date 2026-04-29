@@ -32,21 +32,21 @@
       background: $blue;
     }
   }
-}
 
-.avatarWrapper {
-  position: relative;
-  flex-shrink: 0;
+  &__avatar {
+    position: relative;
+    flex-shrink: 0;
 
-  .avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    object-fit: cover;
-    background: $slate-100;
+    img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: $slate-100;
+    }
   }
 
-  .statusIndicator {
+  &__status {
     position: absolute;
     bottom: -2px;
     right: -2px;
@@ -67,78 +67,81 @@
       background: $green;
     }
   }
-}
 
-.content {
-  flex: 1;
-  min-width: 0;
+  &__content {
+    flex: 1;
+    min-width: 0;
 
-  .topLine {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2px;
-  }
-
-  .name {
-    margin: 0;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: $slate-800;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .roleTag {
-    font-size: 0.8rem;
-    display: flex;
-    align-items: center;
-
-    &.admin {
-      color: $red;
+    .line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
     }
 
-    &.moderator {
-      color: $orange;
+    .name {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: $slate-800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    &.user {
+    .tag {
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+
+      &.admin {
+        color: $red;
+      }
+
+      &.moderator {
+        color: $orange;
+      }
+
+      &.user {
+        color: $slate-400;
+      }
+    }
+  }
+
+  &__details {
+    .email {
+      margin: 0;
+      font-size: 0.8rem;
+      color: $slate-600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      svg {
+        font-size: 0.7rem;
+        opacity: 0.6;
+      }
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      font-size: 0.75rem;
       color: $slate-400;
+
+      .dot {
+        font-size: 1rem;
+        line-height: 0;
+        color: $slate-200;
+      }
     }
   }
 }
 
-.details {
-  .email {
-    margin: 0;
-    font-size: 0.8rem;
-    color: $slate-600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 
-    svg {
-      font-size: 0.7rem;
-      opacity: 0.6;
-    }
-  }
 
-  .meta {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 4px;
-    font-size: 0.75rem;
-    color: $slate-400;
-
-    .dot {
-      font-size: 1rem;
-      line-height: 0;
-      color: $slate-200;
-    }
-  }
-}

@@ -1,12 +1,10 @@
-'use client'
-
 import React, { useEffect, useState } from 'react'
 import { FaChevronLeft } from 'react-icons/fa'
 import useUserStore from '@/src/store'
 import UserCard from '../user-card'
 import SearchBar from '../search-bar'
 import UserDetail from '../user-detail'
-import styles from './UserList.module.scss'
+import s from './UserList.module.scss'
 import { User } from '@/src/store/types'
 
 interface UsersListProps {
@@ -44,33 +42,28 @@ const UsersList = ({ users, error, isLoading = false }: UsersListProps) => {
   }
 
   const closeDetail = () => setIsDetailOpen(false)
-
-  // Используем либо пропсы загрузки, либо состояние стора
   if (isLoading || storeLoading)
-    return <div className={styles.loading}>Загрузка...</div>
+    return <div className={s.loading}>Загрузка...</div>
   if (error || storeError)
-    return <div className={styles.error}>{error || storeError}</div>
+    return <div className={s.error}>{error || storeError}</div>
 
   return (
-    <div className={styles.dashboard}>
-      <header className={styles['dashboard-header']}>
-        <div className={styles['title-section']}>
+    <div className={s.root}>
+      <header className={s.root__header}>
+        <div className={s.title}>
           <h1>Панель управления</h1>
           <p>Данные о пользователях в реальном времени</p>
         </div>
       </header>
 
       <div
-        className={`${styles['main-layout']} ${isDetailOpen ? styles['show-detail'] : ''}`}
+        className={`${s['main-layout']} ${isDetailOpen ? s['show-detail'] : ''}`}
       >
-        {/* Левая панель: Список */}
-        <aside className={styles['users-list-panel']}>
-          {/* SearchBar теперь сам берет/меняет данные в сторе, пропсы не нужны */}
+        <aside className={s['users-list-panel']}>
           <SearchBar />
 
-          <div className={styles['users-scroll']}>
+          <div className={s['users-scroll']}>
             {filteredUsers.length > 0 ? (
-              // Добавляем : User для параметра user
               filteredUsers.map((user: User) => (
                 <UserCard
                   key={user.id}
@@ -80,24 +73,23 @@ const UsersList = ({ users, error, isLoading = false }: UsersListProps) => {
                 />
               ))
             ) : (
-              <div className={styles['no-results']}>
+              <div className={s['no-results']}>
                 <p>😕 Пользователи не найдены</p>
               </div>
             )}
           </div>
         </aside>
 
-        {/* Правая панель: Детали */}
-        <main className={styles['user-detail-panel']}>
+        <main className={s['user-detail-panel']}>
           {selectedUser ? (
             <>
-              <button className={styles['back-button']} onClick={closeDetail}>
+              <button className={s['back-button']} onClick={closeDetail}>
                 <FaChevronLeft /> Назад к списку
               </button>
               <UserDetail user={selectedUser} />
             </>
           ) : (
-            <div className={styles['no-selection']}>
+            <div className={s['no-selection']}>
               <p>👈 Выберите пользователя из списка</p>
             </div>
           )}

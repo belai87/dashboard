@@ -1,7 +1,7 @@
-import s from './Tabs.module.scss'
+import s from './SearchBarTabs.module.scss'
 import { TabsProps } from './types'
 
-const SearchBarFilter = ({
+const SearchBarTabs = ({
   currentType,
   setFilter,
   totalCount,
@@ -33,4 +33,4 @@ const SearchBarFilter = ({
   )
 }
 
-export default SearchBarFilter
+export default SearchBarTabs

@@ -1,4 +1,4 @@
-.dashboard {
+.root {
   max-width: 1440px;
   margin: 0 auto;
   padding: 20px;
@@ -11,8 +11,8 @@
     padding: 0;
     height: 100dvh;
   }
-
-  &-header {
+ 
+  &__header {
     margin-bottom: 24px;
 
     @media (max-width: 768px) {
@@ -60,6 +60,7 @@
       .user-detail-panel {
         transform: translateX(0);
       }
+
       .users-list-panel {
         transform: translateX(-20%);
       }
